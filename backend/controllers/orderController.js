@@ -179,17 +179,7 @@ exports.completeOrder = catchAsync(async (req, res, next) => {
 });
 
 exports.createNewOrder = catchAsync(async (req, res, next) => {
-  console.log(req.body);
-  // Validate payment method
-  if (!req.body.paymentMethod) {
-    return next(new AppError('Payment method is required', 400));
-  }
-
-  if (!['COD', 'PayPal'].includes(req.body.paymentMethod)) {
-    return next(new AppError('Invalid payment method', 400));
-  }
-
-  // For PayPal orders, validate payment result
+  // Validate PayPal payment
   if (req.body.paymentMethod === 'PayPal' && !req.body.paymentResult?.id) {
     return next(new AppError('PayPal payment details required', 400));
   }
@@ -198,15 +188,12 @@ exports.createNewOrder = catchAsync(async (req, res, next) => {
   const order = await Order.create({
     ...req.body,
     user: req.user._id,
-    orderStatus: 'new',
+    status: 'new',
   });
 
-  // Return response
   res.status(201).json({
     status: 'success',
-    data: {
-      data: order,
-    },
+    data: { data: order },
   });
 });
 

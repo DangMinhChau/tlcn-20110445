@@ -13,7 +13,6 @@ const categoryRouter = require('./routes/categoryRoutes');
 const productRouter = require('./routes/productRoutes');
 const orderRouter = require('./routes/orderRoutes');
 const voucherRouter = require('./routes/voucherRoutes');
-const paypalRouter = require('./routes/paypalRoutes');
 const AppError = require('./utils/appError');
 
 const app = express();
@@ -43,7 +42,6 @@ app.use('/api/v1/products', productRouter);
 app.use('/api/v1/categories', categoryRouter);
 app.use('/api/v1/orders', orderRouter);
 app.use('/api/v1/vouchers', voucherRouter);
-app.use('/api/v1/payment', paypalRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Cant't find ${req.originalUrl} on this server!`, 404));

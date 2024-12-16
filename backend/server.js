@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 
 process.on('uncaughtException', (err) => {
   console.log('UNCATCH EXCEPTION! SHUTTING DOWN');
+  console.log(err);
   console.log(err.name, err.message);
   process.exit(1);
 });
@@ -14,16 +15,9 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log('DB connection successfull');
-  });
+mongoose.connect(DB, {}).then(() => {
+  console.log('DB connection successfull');
+});
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {

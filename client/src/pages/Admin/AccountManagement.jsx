@@ -3,7 +3,7 @@ import { getAllUser, lockUser, unlockUser } from "../../api/userAPI";
 import AuthContext from "../../store/authCtx";
 import { Avatar, Switch, Table, Tag } from "antd";
 
-const { Column} = Table;
+const { Column } = Table;
 
 const AccountManagement = () => {
   const authCtx = useContext(AuthContext);
@@ -12,14 +12,11 @@ const AccountManagement = () => {
   useEffect(() => {
     getAllUser(authCtx.token)
       .then((res) => {
-        // console.log(res.data.data)
         setUsers(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reload]);
 
   const onChange = async (_, record) => {
